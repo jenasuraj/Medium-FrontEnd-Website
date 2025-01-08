@@ -8,6 +8,7 @@ export const ThemeProvider = ({ children }) => {
   const [showBlog, setShowBlog] = useState(false); // Determines if BlogSection should show
   const [cat, setCat] = useState(''); // Stores the selected category
   const [currentPostId, setCurrentPostId] = useState(null); // Stores the currently selected post ID
+  const [inputValue,setInputValue]=useState('');
 
   // Toggle theme between light and dark
   const toggleTheme = () => {
@@ -43,6 +44,8 @@ export const ThemeProvider = ({ children }) => {
         cat,
         setCat,
         currentPostId, // Expose current post ID
+        inputValue,
+        setInputValue
       }}
     >
       {children}

@@ -8,8 +8,9 @@ const BlogSection = () => {
   const blog = post.find((item) => item.id === parseInt(postId)); // Find the post by ID
 
   if (!blog) return <div>Blog not found</div>;
-
+  window.scrollTo(0,0)
   return (
+    
     <div className="p-4 w-full h-auto sm:w-[70%] lg:w-[70%] mx-auto">
       <button
         onClick={() => navigate(-1)} // Navigate back to the previous page

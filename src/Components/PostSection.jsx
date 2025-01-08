@@ -4,29 +4,32 @@ import { ThemeContext } from "./ThemeContext";
 import { useNavigate } from "react-router-dom";
 
 const PostSection = () => {
-  const { readTheBlog, cat } = useContext(ThemeContext);
+  const { readTheBlog, cat, inputValue } = useContext(ThemeContext);
   const navigate = useNavigate();
 
-  // Filter posts based on category
-  const filteredPosts = cat
-    ? post.filter((item) => item.category.toLowerCase() === cat.toLowerCase())
-    : post;
+  // Filter posts based on category or inputValue
+  const filteredPosts = Array.isArray(post)
+    ? cat
+      ? post.filter((item) => item.category.toLowerCase() === cat.toLowerCase())
+      : inputValue
+      ? post.filter((item) =>
+          item.category.toLowerCase().includes(inputValue.toLowerCase().trim())
+        )
+      : post
+    : [];
 
   const handleBlogClick = (postId) => {
-    readTheBlog(postId); // Pass the selected post ID if needed
-    navigate(`/read-post/${postId}`); // Navigate to the blog route
+    readTheBlog(postId); // Pass the selected post ID
+    navigate(`/read-post/${postId}`); // Navigate to the specific post
   };
 
   return (
-    <div
-      className="bg-slate-100 w-full h-auto 
-      sm:w-[100%] sm:h-auto md:w-[70%] lg:w-[70%] border border-slate-200 mx-auto flex flex-col"
-    >
+    <div className="bg-slate-100 w-full h-auto sm:w-[100%] sm:h-auto md:w-[70%] lg:w-[70%] border border-slate-200 mx-auto flex flex-col">
       {/* Render filtered posts */}
       {filteredPosts.map((item) => (
         <div
           key={item.id} // Use a unique key
-          className="w-full h-auto sm:h-auto md:h-[40vh] lg:h-[40vh] border-b-2 border-b-slate-300 mt-5 flex flex-col sm:flex-row"
+          className="w-full h-auto sm:h-auto md:h-[40vh] lg:h-[40vh] border-b-2 border-b-slate-300 mt-5 flex flex-col sm:flex-row cursor-pointer"
           onClick={() => handleBlogClick(item.id)}
         >
           {/* Left side text area */}
@@ -44,7 +47,7 @@ const PostSection = () => {
           <div className="w-full sm:w-[40%] h-40 sm:h-full flex justify-center items-center">
             <img
               src={item.img}
-              alt={item.category}
+              alt={`${item.category} image`}
               className="w-[90%] h-[90%] sm:w-full sm:h-full object-cover rounded-md"
             />
           </div>
