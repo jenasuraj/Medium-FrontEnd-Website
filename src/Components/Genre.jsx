@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PostSection from './PostSection';
+import { ThemeContext } from './ThemeContext';
+import BlogSection from './BlogSection';
+import { Link } from 'react-router-dom';
 
 const Genre = () => {
-  const categories = ["Horror","Future","Neuroscience","Comedy", "Adventure", "Thriller", "love", "Silent", "Science Fiction","Physics","Anime","Cars","Technology","Engineering","stupidity"];
+  const {showBlog,setShowBlog,cat,setCat} =useContext(ThemeContext)
+  //const categories = ["Horror","Future","Neuroscience","Comedy", "Adventure", "Thriller", "love", "Silent", "Science Fiction","Physics","Anime","Cars","Technology","Engineering","stupidity"];
+  const categories = ["All", "Horror", "Future", "Neuroscience", "Comedy", "Adventure", "Thriller", "love", "Silent", "Science Fiction", "Physics", "Anime", "Cars", "Technology", "Engineering", "stupidity"];
+
+const FindPostByClicking = (item) => {
+  setCat(item === "All" ? null : item); // Reset if "All" is clicked
+};
+
 
   return (
     <>
@@ -13,7 +23,7 @@ const Genre = () => {
             .fill(0)
             .map((_, round) => (
               categories.map((item, index) => (
-                <p
+                <p onClick={()=>FindPostByClicking(item)}
                 key={`${round}-${index}`}
                 className="rounded-full text-black whitespace-nowrap hover:text-white hover:bg-black transition-colors duration-300 cursor-pointer"
                  >
@@ -23,7 +33,7 @@ const Genre = () => {
               ))
             ))}
         </div>
-        <PostSection />
+        {showBlog ? <Link to='/read-post'></Link>:<PostSection/>}
       </div>
     </>
   );
